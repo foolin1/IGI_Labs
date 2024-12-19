@@ -105,11 +105,13 @@ export class MongoProvider {
         };
     }
 
-    async get(modelName, objectId = null, userId) {
+    async get(modelName, objectId = null, userId = null, authorize = true) {
         await this.connect();
 
         const Model = this.models[modelName];
         if (!Model) throw new Error(`Model "${modelName}" not found`);
+
+        if (authorize) return objectId ? await Model.find({ _id: objectId }) : await Model.find({  });
 
         return objectId ? await Model.find({ userId, _id: objectId }) : await Model.find({ userId });
     }

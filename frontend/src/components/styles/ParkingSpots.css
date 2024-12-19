@@ -1,0 +1,57 @@
+.parking-spots-container {
+    padding: 20px;
+    max-width: 900px;
+    margin: 0 auto;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .parking-spots-container h1 {
+    text-align: center;
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .error-message {
+    color: red;
+    text-align: center;
+    font-size: 1rem;
+    margin-bottom: 20px;
+  }
+  
+  .parking-spots-list {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .parking-spot {
+    background-color: #f9f9f9;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .parking-spot strong {
+    color: #333;
+  }
+  
+  .parking-spot-occupied {
+    color: #dc3545;
+    font-weight: bold;
+  }
+  
+  .parking-spot-free {
+    color: #28a745;
+    font-weight: bold;
+  }
+  
+  .parking-spot-price {
+    color: #007bff;
+  }
+  
+  .parking-spot div {
+    display: flex;
+    justify-content: space-between;
+  }
+  
