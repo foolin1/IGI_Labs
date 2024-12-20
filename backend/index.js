@@ -6,22 +6,23 @@ import cors from 'cors'
 
 const app = express();
 const port = 3001;
-const JWT_SECRET = 'your_secret_key'; // Замените на надёжный секретный ключ
-const url = 'mongodb://admin:admin123@localhost:27017';
+const JWT_SECRET = 'your_secret_key';
+const url = process.env.MONGO_URL;
 const dbName = 'AutoCar';
 const mongoProvider = new MongoProvider(url, dbName);
 
-// Middleware для обработки JSON в теле запроса
+await mongoProvider.connect()
+
+await mongoProvider.migrate()
+
 app.use(bodyParser.json());
 
 app.use(cors())
 
-// Функция для отправки ответа
 const sendResponse = (res, statusCode, data) => {
   res.status(statusCode).json(data);
 };
 
-// Функция для аутентификации
 const authenticate = (req) => {
   const authHeader = req.headers.authorization;
   if (!authHeader) throw new Error('Authorization token missing');
@@ -29,13 +30,12 @@ const authenticate = (req) => {
   const token = authHeader.split(' ')[1];
   try {
     const decoded = jwt.verify(token, JWT_SECRET);
-    return decoded; // Возвращаем информацию о пользователе
+    return decoded;
   } catch (error) {
     throw new Error('Invalid token');
   }
 };
 
-// Маршруты
 app.post('/api/login', async (req, res) => {
   const { username, password } = req.body;
   try {
@@ -44,7 +44,7 @@ app.post('/api/login', async (req, res) => {
       { userId: result.userId, username: result.username },
       JWT_SECRET,
       { expiresIn: '1h' }
-    ); // Генерируем токен
+    ); 
     sendResponse(res, 200, { message: 'Login successful', token });
   } catch (error) {
     sendResponse(res, 401, { error: error.message });
@@ -59,7 +59,7 @@ app.post('/api/register', async (req, res) => {
       { userId: result.userId, username: result.username },
       JWT_SECRET,
       { expiresIn: '1h' }
-    ); // Генерируем токен
+    ); 
     sendResponse(res, 201, { message: 'Registration successful', token });
   } catch (error) {
     sendResponse(res, 400, { error: error.message });

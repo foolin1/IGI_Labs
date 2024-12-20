@@ -156,10 +156,14 @@ export class MongoProvider {
 
     async migrate() {
         // Очистить существующие данные
-        await this.models.User.deleteMany({});
-        await this.models.Auto.deleteMany({});
-        await this.models.ParkingSpot.deleteMany({});
-        await this.models.NewsArticle.deleteMany({});
+        if ((await this.models.User.find({})).length > 0)
+            await this.models.User.deleteMany({});
+        if ((await this.models.Auto.find({})).length > 0)
+            await this.models.Auto.deleteMany({});
+        if ((await this.models.ParkingSpot.find({})).length > 0)
+            await this.models.ParkingSpot.deleteMany({});
+        if ((await this.models.NewsArticle.find({})).length > 0)    
+            await this.models.NewsArticle.deleteMany({});
 
         console.log('Collections cleared');
 

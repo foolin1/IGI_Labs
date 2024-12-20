@@ -6,13 +6,37 @@ import './styles/Login.css';
 export function Register({ setIsAuthenticated }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [formErrors, setFormErrors] = useState({});
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+  const validateForm = () => {
+    const errors = {};
+    if (!username.trim()) {
+      errors.username = 'Имя пользователя обязательно.';
+    }
+    if (username.length <= 4) {
+      errors.username = 'Имя пользователя слишком короткое.';
+    }
+    if (!password.trim() || password.length <= 4) {
+      errors.password = 'Пароль обязателен.';
+    }
+    if (password.length <= 4) {
+      errors.password = 'Пароль слишком короткий.';
+    }
+    return errors;
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     setError(null);
+    const errors = validateForm();
+    if (Object.keys(errors).length > 0) {
+      setFormErrors(errors);
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -42,6 +66,7 @@ export function Register({ setIsAuthenticated }) {
             required
             className="input-field"
           />
+          {formErrors.username && <p className="error-message">{formErrors.username}</p>}
         </div>
         <div className="input-group">
           <label htmlFor="password">Password:</label>
@@ -53,6 +78,7 @@ export function Register({ setIsAuthenticated }) {
             required
             className="input-field"
           />
+          {formErrors.password && <p className="error-message">{formErrors.password}</p>}
         </div>
         <button type="submit" className="submit-btn" disabled={loading}>
           {loading ? 'Logging in...' : 'Login'}

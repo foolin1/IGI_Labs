@@ -4,11 +4,17 @@ import './styles/ParkingSpots.css';
 
 export function ParkingSpots() {
   const [parkingSpots, setParkingSpots] = useState([]);
+  const [filteredSpots, setFilteredSpots] = useState([]); // Для фильтрованных парковочных мест
+  const [searchQuery, setSearchQuery] = useState(''); // Строка поиска
   const [error, setError] = useState(null);
 
   useEffect(() => {
     fetchParkingSpots();
   }, []);
+
+  useEffect(() => {
+    filterParkingSpots();
+  }, [searchQuery, parkingSpots]); // Фильтрация при изменении строки поиска или данных
 
   const fetchParkingSpots = async () => {
     try {
@@ -20,14 +26,38 @@ export function ParkingSpots() {
     }
   };
 
+  const filterParkingSpots = () => {
+    const query = searchQuery.toLowerCase();
+    const filtered = parkingSpots.filter(
+      (spot) =>
+        spot.number.toLowerCase().includes(query) ||
+        (spot.Boolean ? 'да' : 'нет').includes(query) || // Проверка статуса занятости
+        String(spot.price).includes(query) // Поиск по цене
+    );
+    setFilteredSpots(filtered);
+  };
+
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
   return (
     <div className="parking-spots-container">
       <h1>Парковочные места</h1>
 
       {error && <p className="error-message">{error}</p>}
 
+      {/* Поле для поиска */}
+      <input
+        type="text"
+        className="parking-search"
+        placeholder="Поиск по номеру, занятости или цене"
+        value={searchQuery}
+        onChange={handleSearchChange}
+      />
+
       <ul className="parking-spots-list">
-        {parkingSpots.map((parkingSpot) => (
+        {filteredSpots.map((parkingSpot) => (
           <li key={parkingSpot._id} className="parking-spot">
             <div>
               <strong>Номер:</strong> {parkingSpot.number}, 
