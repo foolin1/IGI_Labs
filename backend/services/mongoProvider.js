@@ -13,7 +13,9 @@ const Auto = mongoose.model('Auto', autoSchema);
 const userSchema = new mongoose.Schema({
     username: String,
     password: String,
-
+    googleId: String, // Добавлено для хранения Google ID
+    email: String, // Email пользователя
+    name: String, // Имя пользователя
 });
 
 const User = mongoose.model('User', userSchema);
@@ -207,4 +209,24 @@ export class MongoProvider {
 
         console.log('Migration completed successfully.');
     }
+
+    async findUserByGoogleId(googleId) {
+        // Найти пользователя по Google ID
+        const user = await this.models.User.findOne({ googleId });
+        return user;
+    }
+    
+    async createGoogleUser(userData) {
+        // Создать нового пользователя с данными из Google профиля
+        const newUser = new this.models.User({
+            googleId: userData.googleId,
+            email: userData.email,
+            name: userData.name,
+        });
+    
+        // Сохранить пользователя в базе
+        await newUser.save();
+        return newUser;
+    }
+    
 }

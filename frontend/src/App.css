@@ -37,3 +37,16 @@ nav {
 .logout-btn:hover {
   background-color: darkred;
 }
+
+.cat-image {
+  width: 300px;
+  height: auto;
+  margin: 20px 0;
+}
+
+.joke {
+  margin: 20px 0;
+  padding: 10px;
+  border: 1px solid #ddd;
+  background-color: #f9f9f9;
+}

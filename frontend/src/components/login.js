@@ -52,6 +52,10 @@ export function Login({ setIsAuthenticated }) {
     }
   };
 
+  const handleGoogleLogin = () => {
+    window.location.href = `${process.env.REACT_APP_BACKEND_DOMAIN}/auth/google`;
+  }
+
   return (
     <div className="login-container">
       <h1>Вход</h1>
@@ -90,6 +94,9 @@ export function Login({ setIsAuthenticated }) {
           {loading ? 'Вход...' : 'Войти'}
         </button>
       </form>
+      <button onClick={handleGoogleLogin} className="google-login-btn">
+        Войти через Google
+      </button>
       {error && <p className="error-message">{error}</p>}
     </div>
   );

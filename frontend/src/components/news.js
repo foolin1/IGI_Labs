@@ -1,32 +1,42 @@
-import React, { useState, useEffect } from 'react';
+import React, { Component } from 'react';
 import { getNews } from '../services/api';
 import './styles/News.css';
 
-export function News() {
-  const [news, setNews] = useState([]);
-  const [filteredNews, setFilteredNews] = useState([]); // Отфильтрованные новости
-  const [searchQuery, setSearchQuery] = useState(''); // Строка поиска
-  const [error, setError] = useState(null);
+class News extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      news: [], // Список новостей
+      filteredNews: [], // Отфильтрованные новости
+      searchQuery: '', // Строка поиска
+      error: null, // Ошибка загрузки новостей
+    };
+  }
 
-  useEffect(() => {
-    fetchNews();
-  }, []);
+  componentDidMount() {
+    this.fetchNews();
+  }
 
-  useEffect(() => {
-    filterNews();
-  }, [searchQuery, news]); // Обновление фильтрации при изменении строки поиска или новостей
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.searchQuery !== this.state.searchQuery || prevState.news !== this.state.news) {
+      this.filterNews();
+    }
+  }
 
-  const fetchNews = async () => {
+  // Метод для загрузки новостей
+  fetchNews = async () => {
     try {
       const data = await getNews();
-      setNews(data || []);
+      this.setState({ news: data || [] });
     } catch (error) {
       console.error(error);
-      setError('Ошибка при загрузке новостей');
+      this.setState({ error: 'Ошибка при загрузке новостей' });
     }
   };
 
-  const filterNews = () => {
+  // Метод для фильтрации новостей по строке поиска
+  filterNews = () => {
+    const { searchQuery, news } = this.state;
     const query = searchQuery.toLowerCase();
     const filtered = news.filter(
       (newsArticle) =>
@@ -34,40 +44,45 @@ export function News() {
         newsArticle.description.toLowerCase().includes(query) ||
         (newsArticle.date && newsArticle.date.toLowerCase().includes(query))
     );
-    setFilteredNews(filtered);
+    this.setState({ filteredNews: filtered });
   };
 
-  const handleSearchChange = (e) => {
-    setSearchQuery(e.target.value);
+  // Метод для обновления строки поиска
+  handleSearchChange = (e) => {
+    this.setState({ searchQuery: e.target.value });
   };
 
-  return (
-    <div className="news-container">
-      <h1>Новости</h1>
+  render() {
+    const { filteredNews, searchQuery, error } = this.state;
 
-      {error && <p className="error-message">{error}</p>}
+    return (
+      <div className="news-container">
+        <h1>Новости</h1>
 
-      {/* Поле для поиска */}
-      <input
-        type="text"
-        className="news-search"
-        placeholder="Поиск по названию, содержанию или дате"
-        value={searchQuery}
-        onChange={handleSearchChange}
-      />
+        {error && <p className="error-message">{error}</p>}
 
-      {/* Список новостей */}
-      <ul className="news-list">
-        {filteredNews.map((newsArticle) => (
-          <li key={newsArticle._id} className="news-item">
-            <strong>Название:</strong> {newsArticle.title}
-            <p><strong>Содержание:</strong> {newsArticle.description}</p>
-            <span>{newsArticle.date}</span>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
+        {/* Поле для поиска */}
+        <input
+          type="text"
+          className="news-search"
+          placeholder="Поиск по названию, содержанию или дате"
+          value={searchQuery}
+          onChange={this.handleSearchChange}
+        />
+
+        {/* Список новостей */}
+        <ul className="news-list">
+          {filteredNews.map((newsArticle) => (
+            <li key={newsArticle._id} className="news-item">
+              <strong>Название:</strong> {newsArticle.title}
+              <p><strong>Содержание:</strong> {newsArticle.description}</p>
+              <span>{newsArticle.date}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    );
+  }
 }
 
 export default News;

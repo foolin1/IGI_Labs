@@ -219,3 +219,33 @@ export async function getParkingSpots() {
   
   return await response.json()
 } 
+
+export const fetchCatImage = async () => {
+  try {
+    const response = await fetch("https://api.thecatapi.com/v1/images/search");
+    if (response.ok) {
+      const data = await response.json();
+      return data[0].url;  // URL изображения кошки
+    } else {
+      throw new Error(`Failed to retrieve cat image. Status code: ${response.status}`);
+    }
+  } catch (error) {
+    console.error("Error fetching cat image:", error);
+    return null;
+  }
+};
+
+export const fetchJoke = async () => {
+  try {
+    const response = await fetch("https://v2.jokeapi.dev/joke/Any");
+    if (response.ok) {
+      const data = await response.json();
+      return data;
+    } else {
+      throw new Error(`Failed to retrieve joke. Status code: ${response.status}`);
+    }
+  } catch (error) {
+    console.error("Error fetching joke:", error);
+    return null;
+  }
+};

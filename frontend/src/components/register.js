@@ -43,8 +43,8 @@ export function Register({ setIsAuthenticated }) {
       const result = await register(username, password);
       localStorage.setItem('jwt', result.token);
       setIsAuthenticated(true);
-      alert('Register successful!');
-      navigate("/")
+      alert('Регистрация прошла успешно!');
+      navigate('/');
     } catch (err) {
       setError(err.message);
     } finally {
@@ -52,38 +52,51 @@ export function Register({ setIsAuthenticated }) {
     }
   };
 
+  const handleGoogleRegister = () => {
+    window.location.href = `${process.env.REACT_APP_BACKEND_DOMAIN}/auth/google`;
+  };
+
   return (
     <div className="login-container">
-      <h1>Register</h1>
+      <h1>Регистрация</h1>
       <form onSubmit={handleSubmit} className="login-form">
         <div className="input-group">
-          <label htmlFor="username">Username:</label>
+          <label htmlFor="username">Имя пользователя:</label>
           <input
             type="text"
             id="username"
             value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            onChange={(e) => {
+              setUsername(e.target.value);
+              setFormErrors({ ...formErrors, username: '' });
+            }}
             required
             className="input-field"
           />
           {formErrors.username && <p className="error-message">{formErrors.username}</p>}
         </div>
         <div className="input-group">
-          <label htmlFor="password">Password:</label>
+          <label htmlFor="password">Пароль:</label>
           <input
             type="password"
             id="password"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => {
+              setPassword(e.target.value);
+              setFormErrors({ ...formErrors, password: '' });
+            }}
             required
             className="input-field"
           />
           {formErrors.password && <p className="error-message">{formErrors.password}</p>}
         </div>
         <button type="submit" className="submit-btn" disabled={loading}>
-          {loading ? 'Logging in...' : 'Login'}
+          {loading ? 'Регистрация...' : 'Зарегистрироваться'}
         </button>
       </form>
+      <button onClick={handleGoogleRegister} className="google-register-btn">
+        Зарегистрироваться через Google
+      </button>
       {error && <p className="error-message">{error}</p>}
     </div>
   );

@@ -50,4 +50,36 @@
   .submit-btn:hover {
     background-color: #457b9d;
   }
+  .google-login-btn {
+    background-color: #4285f4;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin-top: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    display: block;
+    width: 100%;
+  }
+  
+  .google-login-btn:hover {
+    background-color: #357ae8;
+  }
+  .google-register-btn {
+    background-color: #4285f4;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin-top: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    display: block;
+    width: 100%;
+  }
+  
+  .google-register-btn:hover {
+    background-color: #357ae8;
+  }
   
