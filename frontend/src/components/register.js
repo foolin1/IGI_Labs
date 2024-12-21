@@ -13,20 +13,26 @@ export function Register({ setIsAuthenticated }) {
 
   const validateForm = () => {
     const errors = {};
+    const usernameRegex = /^[a-zA-Z0-9_]{5,20}$/;
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/;
+
     if (!username.trim()) {
       errors.username = 'Имя пользователя обязательно.';
+    } else if (!usernameRegex.test(username)) {
+      errors.username =
+        'Имя пользователя должно содержать только буквы, цифры или подчеркивания, длина от 5 до 20 символов.';
     }
-    if (username.length <= 4) {
-      errors.username = 'Имя пользователя слишком короткое.';
-    }
-    if (!password.trim() || password.length <= 4) {
+
+    if (!password.trim()) {
       errors.password = 'Пароль обязателен.';
+    } else if (!passwordRegex.test(password)) {
+      errors.password =
+        'Пароль должен содержать минимум 8 символов, включая одну заглавную букву, одну строчную букву, одну цифру и один специальный символ.';
     }
-    if (password.length <= 4) {
-      errors.password = 'Пароль слишком короткий.';
-    }
+
     return errors;
   };
+
 
   const handleSubmit = async (event) => {
     event.preventDefault();
