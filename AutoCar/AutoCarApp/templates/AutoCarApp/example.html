@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="ru">
+  {% load static %}
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Подключение файла стилей -->
+  <link rel="stylesheet" href="{% static 'AutoCarApp/css/styles.css' %}">
+  <title>Пример страницы</title>
+  <style>
+    /* Стили для адаптивного изображения */
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+  </style>
+</head>
+<body>
+  <!-- Пример листинга -->
+   <br><strong>Пример листинга</strong>
+  <pre>
+    <code>
+      &lt;html&gt;
+        &lt;head&gt;
+          &lt;title&gt;Пример&lt;/title&gt;
+        &lt;/head&gt;
+        &lt;body&gt;
+          &lt;p&gt;Пример&lt;/p&gt;
+        &lt;/body&gt;
+      &lt;/html&gt;
+    </code>
+  </pre>
+
+  <!-- Пример сокращений -->
+  <br><strong>Пример сокращения <abbr title="HyperText Markup Language">HTML</abbr></strong>
+
+  <!-- Пример определений -->
+  <br><strong>Пример определения </strong>
+  <dl>
+    <dt>HTML</dt> <dd> - HyperText Markup Language</dd>
+  </dl>
+
+  <!-- Пример цитат -->
+  <br><strong>Пример цитаты</strong>
+  <blockquote cite='https://aldous-huxley.net'>Если бы двери восприятия были чисты, все предстало бы человеку таким, как оно есть — бесконечным.</blockquote> 
+
+  <!-- Пример даты и времени -->
+   <br><strong>Пример даты и времени</strong>
+  <p>Дата: <time datetime="2022-01-01">01.01.2022</time></p>
+
+  <!-- Пример текста в виде четверостишия -->
+   <br><strong>Пример стиха</strong>
+  <p>Владей собой среди толпы смятенной,<br>
+  Тебя клянущей за смятенье всех,<br>
+  Верь сам в себя, наперекор вселенной,<br>
+  И маловерным отпусти их грех</p>
+
+  <!-- Пример ссылок -->
+   <br><strong>Пример ссылок</strong>
+  <p><a href="http://localhost:8000/autocar/example/">Пример ссылки</a></p>
+  <p><a href="http://localhost:8000/autocar/example/" download>Пример ссылки для скачивания</a></p>
+
+
+  <!-- Пример якорей -->
+    <br><strong>Пример якоря</strong>
+  <p><a href="#anchor">Пример якоря</a></p>
+  <p id="anchor">Пример якоря</p>
+
+  <!-- Пример контейнерных элементов -->
+   <br><strong>Пример контейнерного элемента</strong>
+  <div>
+    <p>Пример контейнерного элемента</p>
+  </div>
+
+  <!-- Пример списков -->
+  <br><strong>Пример списка</strong>
+  <ul>
+    <li>1 элемент</li>
+    <li>2 элемент</li>
+  </ul>
+
+  <!-- Пример фигур -->
+   <br><strong>Пример фигуры</strong>
+   {% load static %}
+  <figure>
+    <img src="{% static 'AutoCarApp/logo.png' %}" alt="Пример изображения">
+    <figcaption>Пример фигуры</figcaption>
+  </figure>
+
+  <!-- Пример навигации -->
+   <br><strong>Пример навигации</strong>
+  <nav>
+    <ul>
+      <li><a href="#">Пример</a></li>
+      <li><a href="#">навигации</a></li>
+    </ul>
+  </nav>
+
+  <!-- Пример таблицы -->
+   <br><strong>Пример таблицы</strong>
+  <table>
+    <caption>Пример таблицы</caption>
+    <thead>
+      <tr>
+        <th scope="col">Заголовок 1</th>
+        <th scope="col">Заголовок 2</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td headers="header1">Данные 1</td>
+        <td headers="header2">Данные 2</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Пример формы -->
+   <br><strong>Пример формы</strong>
+  <form>
+    <label for="name">Имя:</label>
+    <input type="text" id="name" name="name"><br><br>
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email"><br><br>
+    <select name="select">
+      <option value="option1">Опция 1</option>
+      <option value="option2">Опция 2</option>
+    </select><br><br>
+    <button type="submit">Отправить</button>
+  </form>
+
+  <!-- Пример iframe -->
+   <br><strong>Пример iframe</strong>
+  <iframe src="https://skillfactory.ru/web-developer/" height="500px" width="500px"></iframe>
+
+  <!-- Пример изображений -->   
+   <br><strong>Пример изображения</strong>
+  <img src="{% static 'AutoCarApp/logo.png' %}" alt="Пример изображения">
+
+  <!-- Пример видео -->
+   <br><strong>Пример видео</strong>
+  <video width="500" height="500" controls autoplay muted loop>
+    <source src="{% static 'AutoCarApp/sample-5s.mp4' %}" type="video/mp4">
+    Ваш браузер не поддерживает видео.
+  </video>
+
+  <!-- Пример аудио -->
+  <audio controls>
+    <br><strong>Пример аудио</strong>
+    <source src="{% static 'AutoCarApp/sound.mp3' %}" type="audio/mp3">
+    Ваш браузер не поддерживает аудио.
+</audio>
+
+<!-- Пример элементов управления -->
+   <br><strong>Пример элементов управления</strong>
+<input type="button" value="Кнопка">
+<input type="checkbox" id="checkbox" name="checkbox">
+<label for="checkbox">Чекбокс</label>
+<input type="radio" id="radio" name="radio">
+<label for="radio">Радио</label>
+<input type="range" id="range" name="range">
+<label for="range">Ползунок</label>
+<input type="search" id="search" name="search">
+<label for="search">Поиск</label>
+<input type="tel" id="tel" name="tel">
+<label for="tel">Телефон</label>
+<input type="url" id="url" name="url">
+<label for="url">URL</label>
+
+<!-- Пример контейнеров -->
+   <br><strong>Пример контейнера</strong>
+<div>
+  <p>Пример контейнера</p>
+</div>
+<span>
+  <p>Пример контейнера</p>
+</span>
+
+<!-- Пример кнопок -->
+   <br><strong>Пример кнопок</strong>
+<button>Кнопка</button>
+<input type="button" value="Кнопка">
+<input type="submit" value="Отправить">
+<input type="reset" value="Сбросить">
+
+<!-- Пример выпадающих списков -->
+   <br><strong>Пример выпадающих списков</strong>
+<select name="select">
+  <option value="option1">Опция 1</option>
+  <option value="option2">Опция 2</option>
+</select>
+
+<!-- Пример многострочных полей -->
+   <br><strong>Пример многострочных полей</strong>
+<textarea name="textarea" cols="30" rows="10"></textarea>
+
+<!-- Пример полей для ввода дат -->
+   <br><strong>Пример полей для ввода дат</strong>
+<input type="date" id="date" name="date">
+<label for="date">Дата</label>
+<input type="time" id="time" name="time">
+<label for="time">Время</label>
+<input type="datetime-local" id="datetime-local" name="datetime-local">
+<label for="datetime-local">Дата и время</label>
+
+<!-- Пример полей для ввода чисел -->
+   <br><strong>Пример полей для ввода чисел</strong>
+<input type="number" id="number" name="number">
+<label for="number">Число</label>
+<input type="range" id="range" name="range">
+<label for="range">Ползунок</label>
+
+<!-- Пример полей для ввода текста -->
+   <br><strong>Пример полей для ввода текста</strong>
+<input type="text" id="text" name="text">
+<label for="text">Текст</label>
+<input type="password" id="password" name="password">
+<label for="password">Пароль</label>
+<input type="email" id="email" name="email">
+<label for="email">Email</label>
+<input type="tel" id="tel" name="tel">
+<label for="tel">Телефон</label>
+<input type="url" id="url" name="url">
+<label for="url">URL</label>
+
+<!-- Пример таблицы с объединенными ячейками -->
+   <br><strong>Пример таблицы с объединенными ячейками</strong>
+<table>
+  <tr>
+    <th>Заголовок 1</th>
+    <th>Заголовок 2</th>
+  </tr>
+  <tr>
+    <td>Данные 1</td>
+    <td>Данные 2</td>
+  </tr>
+  <tr>
+    <td colspan="2">Объединенная ячейка</td>
+  </tr>
+</table>
+
+<!-- Пример таблицы с атрибутом headers -->
+   <br><strong>Пример таблицы с атрибутом headers</strong>
+<table>
+  <tr>
+    <th id="header1">Заголовок 1</th>
+    <th id="header2">Заголовок 2</th>
+  </tr>
+  <tr>
+    <td headers="header1">Данные 1</td>
+    <td headers="header2">Данные 2</td>
+  </tr>
+</table>
+
+<table>
+  <caption>Заголовок таблицы</caption>
+  <thead>
+    <tr>
+      <th>Столбец 1</th>
+      <th>Столбец 2</th>
+      <th>Столбец 3</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Ячейка 1</td>
+      <td>Ячейка 2</td>
+      <td>Ячейка 3</td>
+    </tr>
+    <tr>
+      <td>Ячейка 4</td>
+      <td></td>
+      <td>Ячейка 6</td>
+    </tr>
+    <tr>
+      <td>Ячейка 7</td>
+      <td>Ячейка 8</td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- Пример формы с валидацией -->
+   <br><strong>Пример формы с валидацией</strong>
+<form>
+  <label for="name">Имя:</label>
+  <input type="text" id="name" name="name" required><br><br>
+  <label for="email">Email:</label>
+  <input type="email" id="email" name="email" required><br><br>
+  <button type="submit">Отправить</button>
+</form>
+</body>
+</html>

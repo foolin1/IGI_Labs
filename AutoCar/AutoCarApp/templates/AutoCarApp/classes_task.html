@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Phone Lookup</title>
+</head>
+<body>
+    <h2>Employee Phone Directory</h2>
+    <form id="addEmployeeForm">
+        <label for="surname">Surname: </label><input type="text" id="surname" required><br>
+        <label for="initials">Initials: </label><input type="text" id="initials" required><br>
+        <label for="phone">Phone Number: </label><input type="text" id="phone" required><br>
+        <button type="submit">Add Employee</button>
+    </form>
+    <h3>Employees List</h3>
+    <div id="employeeList"></div>
+    <h3>Find Employee by Name:</h3>
+    <form id="searchEmployeeForm">
+        <label for="searchSurname">Surname: </label><input type="text" id="searchSurname" required><br>
+        <label for="searchInitials">Initials: </label><input type="text" id="searchInitials" required><br>
+        <button type="submit">Search</button>
+    </form>
+    <div id="searchResult"></div>
+
+    <script>
+        
+        class Employee {
+            constructor(surname, initials, phone) {
+                this.surname = surname;
+                this.initials = initials;
+                this.phone = phone;
+            }
+
+            
+            getSurname() {
+                return this.surname;
+            }
+
+            
+            setSurname(surname) {
+                this.surname = surname;
+            }
+
+            
+            addEmployee(surname, initials, phone) {
+                const employee = new Employee(surname, initials, phone);
+                employeeList.push(employee);
+                this.displayEmployees();
+            }
+
+            
+            displayEmployees() {
+                const employeeDiv = document.getElementById("employeeList");
+                employeeDiv.innerHTML = "";
+                employeeList.forEach(emp => {
+                    employeeDiv.innerHTML += `<p>${emp.surname} ${emp.initials} - ${emp.phone}</p>`;
+                });
+            }
+
+            
+            searchEmployee(surname, initials) {
+                const result = employeeList.find(emp => emp.surname === surname && emp.initials === initials);
+                const resultDiv = document.getElementById("searchResult");
+                if (result) {
+                    resultDiv.innerHTML = `<p>Found: ${result.surname} ${result.initials} - ${result.phone}</p>`;
+                } else {
+                    resultDiv.innerHTML = "<p>Employee not found.</p>";
+                }
+            }
+        }
+
+        
+        const employeeList = [];
+
+        
+        document.getElementById("addEmployeeForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            const surname = document.getElementById("surname").value.trim();
+            const initials = document.getElementById("initials").value.trim();
+            const phone = document.getElementById("phone").value.trim();
+            const employee = new Employee();
+            employee.addEmployee(surname, initials, phone);
+        });
+
+        
+        document.getElementById("searchEmployeeForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            const surname = document.getElementById("searchSurname").value;
+            const initials = document.getElementById("searchInitials").value;
+            const employee = new Employee();
+            employee.searchEmployee(surname, initials);
+        });
+    </script>
+</body>
+</html>

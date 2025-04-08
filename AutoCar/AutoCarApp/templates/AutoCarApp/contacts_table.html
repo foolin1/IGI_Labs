@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ru">
+  {% load static %}
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Подключение файла стилей -->
+  <link rel="stylesheet" href="{% static 'AutoCarApp/css/styles_for_js.css' %}">
+  <link rel="stylesheet" href="{% static 'AutoCarApp/css/styles.css' %}">
+  <script src="{% static 'AutoCarApp/js/contacts.js' %}"></script>
+  <title>Пример страницы</title>
+</head>
+<body>
+    <div class="loader" id="preloader" style="display: none;">
+        <div class="circle circle1"></div>
+        <div class="circle circle2"></div>
+    </div>
+
+    <h1>Сотрудники</h1>
+
+    <button id="add-contact-btn">Добавить</button>
+
+    <!-- Форма добавления -->
+    <div id="add-contact-form" style="display: none;">
+        <h3>Добавление нового сотрудника</h3>
+        <form id="contact-form" enctype="multipart/form-data" method="POST">
+            {% csrf_token %}
+            <input type="text" id="name" name="name" placeholder="ФИО" required>
+            <input type="file" id="photo" name="photo" accept="image/*">
+            <textarea id="job_description" name="job_description" placeholder="Описание выполняемых работ"></textarea>
+            <input type="text" id="phone" name="phone" placeholder="Телефон" required>
+            <input type="email" id="email" name="email" placeholder="Электронная почта" required>
+            <button type="button" id="validate-url-btn">Проверить URL</button>
+            <input type="text" id="url" name="url" placeholder="URL (http://...)">
+            <p id="url-validation-result"></p>
+            <button type="submit" id="add-contact">Добавить в таблицу</button>
+        </form>        
+    </div>
+
+    <!-- Таблица сотрудников -->
+    <table id="contacts-table">
+        <thead>
+            <tr>
+                <th data-sort="name">ФИО</th>
+                <th>Фото</th>
+                <th data-sort="job_description">Описание</th>
+                <th data-sort="phone">Телефон</th>
+                <th data-sort="email">Электронная почта</th>
+                <th>Выбрать</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <div class="contact-control" id="pagination-controls"></div>
+
+    <!-- Фильтр -->
+    <div class="contact-control" > 
+        <input type="text" id="filter-input" placeholder="Введите текст для фильтрации">
+        <button id="filter-button">Найти</button>
+        <button id="remove-filter-button">Сбросить фильтры</button>
+    </div>
+
+    <!-- Кнопка премирования -->
+    <div class="contact-control" >
+        <button id="reward-button">Премировать</button>
+    </div>
+
+    <!-- Вывод результата премирования -->
+    <div class="contact-control"  id="reward-output" style="margin-top: 20px; color: green;"></div>
+    <div id="reward-result"></div>
+
+    <div class="contact-control"  id="selected-contact-info"></div>
+
+    <div class="contact-control">
+        <input type="checkbox" id="customize-page-checkbox">
+        <label for="customize-page-checkbox">Настроить внешний вид страницы</label>
+    </div>
+    
+    <div id="customization-controls" style="display: none;">
+        <h3>Настройки внешнего вида</h3>
+        <label for="font-size-selector">Размер шрифта:</label>
+        <select id="font-size-selector">
+            <option value="14px">14px</option>
+            <option value="16px">16px</option>
+            <option value="18px">18px</option>
+            <option value="20px">20px</option>
+        </select>
+        <br>
+        <label for="text-color-input">Цвет текста:</label>
+        <input type="color" id="text-color-input">
+        <br>
+        <label for="background-color-input">Цвет фона страницы:</label>
+        <input type="color" id="background-color-input">
+    </div>
+    
+</body>
+</html>

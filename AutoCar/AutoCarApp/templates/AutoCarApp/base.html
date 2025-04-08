@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ru">
+{% load static %}
+<head>
+  <meta charset="UTF-8">
+  <title>AutoCar</title>
+  <link rel="icon" type="image/x-icon" href="{% static 'AutoCarApp/logo.png' %}">
+  <meta name="description" content="AutoCar - сервис для управления автомобилями и стоянками">
+  <meta name="keywords" content="автомобили, стоянки, управление, сервис">
+  <meta name="author" content="Игорь">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta property="og:title" content="AutoCar">
+  <meta property="og:description" content="AutoCar - сервис для управления автомобилями и стоянками">
+  <meta property="og:image" content="{% static 'AutoCarApp/logo.png' %}">
+  <meta property="og:url" content="http://localhost:8000/autocar/home/">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="AutoCar">
+  <meta name="twitter:description" content="AutoCar - сервис для управления автомобилями и стоянками">
+  <meta name="twitter:image" content="{% static 'AutoCarApp/logo.png' %}"> 
+  <!-- Подключение файла стилей -->
+  <link rel="stylesheet" href="{% static 'AutoCarApp/css/styles.css' %}">
+</head>
+<body>
+  <header>
+    <nav>
+      <div style="display: inline-flex;">
+        <img src="{% static 'AutoCarApp/logo.png' %}" style="width: 50px; height: 50px;" alt="AutoCar">
+        <h1>AutoCar</h1>
+      </div>
+      <ul>
+        <li><a class="nav-link" href="{% url 'home' %}">Главная</a></li>
+        <li><a class="nav-link" href="{% url 'politics' %}">Политика конфиденциальности</a></li>
+        <li><a class="nav-link" href="{% url 'parking_spots' %}">Стояночные места</a></li>
+        <!--<li><a class="nav-link" href="{% url 'sales_statistics' %}">Статистика продаж</a></li>-->
+        <li><a class="nav-link" href="{% url 'about' %}">О компании</a></li>
+        <li><a class="nav-link" href="{% url 'news' %}">Новости</a></li>
+        {% if user.is_authenticated %}
+        <li><h3>Здравствуйте, {{ user.name }}</h3></li>
+        <li><h3>Баланс: {{ user.balance }}</h3></li>
+        <li><a class="nav-link" href="{% url 'cars' %}">Мои авто</a></li>
+        <li><a class="nav-link" href="{% url 'logout' %}">Выйти</a></li>
+        <li>
+          <a class="nav-link" href="{% url 'replenish_user_balance' %}">Пополнить баланс</a>
+        </li>
+        <li><a class="nav-link" href="{% url 'edit_account' %}">Изменить аккаунт</a></li>
+        {% else %}
+        <li><a class="nav-link" href="{% url 'register' %}">Регистрация</a></li>
+        <li><a class="nav-link" href="{% url 'login' %}">Вход</a></li>
+        {% endif %}
+      </ul>
+    </nav>
+  </header>
+  <main>
+    {% block content %}
+    {% endblock content %}
+  </main>
+  <footer>
+    <p>&copy; 2023 AutoCar</p>
+  </footer>
+</body>
+</html>

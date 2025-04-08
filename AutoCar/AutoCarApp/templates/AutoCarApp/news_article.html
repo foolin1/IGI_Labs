@@ -1,0 +1,9 @@
+{% extends 'AutoCarApp/base.html' %}
+{% load static %}
+{% block content %}
+<div class="full-article">
+    <h1>{{ news_article.name }}</h1>
+    <img src="{{ news_article.image.url }}" alt="Изображение новости" width="200" height="150">
+    <p>{{ news_article.description }}</p>
+</div>
+{% endblock %}

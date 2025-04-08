@@ -1,0 +1,193 @@
+{% extends 'AutoCarApp/base.html' %}
+{% load static %}
+{% block content %}
+  <div id="location-info"></div>
+
+  <!-- Прелоадер с машиной и названием компании -->
+  <div class="animation">
+    <div class="car"></div>
+    <div class="park-sign"></div>
+    <div class="company-name">AutoCar</div>
+  </div>
+
+  <div class="loader">
+    <div class="circle circle1"></div>
+    <div class="circle circle2"></div>
+  </div>
+
+  <section itemscope itemtype="http://schema.org/Website" aria-label="Текущее время" role="contentinfo">
+    <h1 id="current-time" tabindex="0">Текущее время</h1>
+    <p lang="ru" dir="ltr">
+      <time datetime="{{ now_user }}" itemprop="dateModified">{{ now_user }}</time>
+    </p>
+    <p lang="ru" dir="ltr">
+      <time datetime="{{ now_utc }}" itemprop="dateModified">{{ now_utc }}</time>
+    </p>
+  </section>
+  
+  <section itemscope itemtype="http://schema.org/Calendar" aria-label="Календарь" role="contentinfo">
+    <h1 id="calendar" tabindex="0">Календарь</h1>
+    <pre lang="ru" dir="ltr" itemprop="description"><code>{{ calendar }}</code></pre>
+  </section>
+  <section itemscope itemtype="http://schema.org/Advertisement" aria-label="Реклама" role="contentinfo">
+    <h1 id="advertisements" tabindex="0">Реклама</h1>
+    <div class="advertisements" role="list" aria-label="Список рекламных баннеров">
+      <a href="http://127.0.0.1:8000/autocar/home" target="_blank" rel="noopener noreferrer" aria-label="Перейти на сайт">
+        <img src="{% static 'AutoCarApp/banners/logo.png' %}" alt="Баннер компании" width="300" height="200" loading="lazy" decoding="async">
+      </a>
+      <a href="http://127.0.0.1:8000/autocar/home" target="_blank" rel="noopener noreferrer" aria-label="Перейти на сайт">
+        <img src="{% static 'AutoCarApp/banners/logo.png' %}" alt="Баннер компании" width="300" height="200" loading="lazy" decoding="async">
+      </a>
+    </div>
+  </section>
+  
+  <section itemscope itemtype="http://schema.org/CreativeWork" aria-label="Случайная шутка" role="contentinfo">
+    <h1 id="joke" tabindex="0">Случайная шутка</h1>
+    <blockquote cite="{{ joke.source }}" lang="ru" dir="ltr">
+      {% if joke.type == 'single' %}
+        <p itemprop="text">{{ joke.joke }}</p>
+      {% else %}
+        <p itemprop="text">{{ joke.setup }}</p>
+        <p itemprop="text">{{ joke.delivery }}</p>
+      {% endif %}
+    </blockquote>
+  </section>
+  
+  <section aria-label="Случайный кот" role="contentinfo">
+    <h1 id="cat" tabindex="0">Случайный кот</h1>
+    <figure role="figure" aria-label="Изображение кота">
+      <img style="width: 200px; height: 200px;" src="{{ cat_image_url }}" alt="Random Cat" loading="lazy" decoding="async">
+      <figcaption lang="ru" dir="ltr">Случайный кот</figcaption>
+    </figure>
+  </section>
+  
+  <section itemscope itemtype="http://schema.org/Review" aria-label="Отзывы" role="contentinfo">
+    <h1 id="reviews" tabindex="0">Отзывы</h1>
+    <ul role="list" aria-label="Список отзывов">
+      <li role="listitem">
+        <a href="{% url 'add_review' %}" aria-label="Оставить отзыв">Оставить отзыв</a>
+      </li>
+      {% for review in reviews %}
+        <li role="listitem">
+          <p lang="ru" dir="ltr">Рейтинг: <strong itemprop="ratingValue">{{ review.rating }}</strong></p>
+          <p lang="ru" dir="ltr">Описание: <em itemprop="reviewBody">{{ review.description }}</em></p>
+          <p lang="ru" dir="ltr">Автор: <cite itemprop="author">{{ review.user }}</cite></p>
+        </li>
+      {% endfor %}
+    </ul>
+  </section>
+  <div class="last-article">
+    <section itemscope itemtype="http://schema.org/NewsArticle" aria-label="Новости" role="contentinfo">
+      <h1 id="news" tabindex="0">Новости</h1>
+      <ul role="list" aria-label="Список новостей">
+        <h1 id="last-article" tabindex="0">Последняя статья</h1>
+        <p lang="ru" dir="ltr">Заголовок: <strong itemprop="headline">{{ last_article.name }}</strong></p>
+        <figure style="padding: 0;" role="figure" aria-label="Изображение новости">
+          <img src="{{ last_article.image.url }}" alt="Изображение новости" width="100" height="70" loading="lazy" decoding="async">
+          <figcaption lang="ru" dir="ltr">Изображение новости</figcaption>
+        </figure>
+        <p lang="ru" dir="ltr">Описание: <em itemprop="description">{{ last_article.description|truncatewords:5 }}</em>...</p>
+        <a href="{% url 'news_article' last_article.id %}" aria-label="Читать далее">Читать далее</a>
+      </ul>
+    </section>
+  </div>
+  
+  <div style="height: 800px;">
+    <section class="job-openings" itemscope itemtype="http://schema.org/JobPosting" aria-label="Вакансии" role="contentinfo">
+      <h1 id="vacancies" tabindex="0">Вакансии</h1>
+      <div class="job-list">
+        <ul role="list" aria-label="Список вакансий">
+          {% for vacancy in vacancys %}
+            <li role="listitem">
+              <div class="job-card">
+                <p lang="ru" dir="ltr">Название: <strong itemprop="title">{{ vacancy.name }}</strong></p>
+                <p lang="ru" dir="ltr">Описание: <em itemprop="description">{{ vacancy.description }}</em></p>
+              </div>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </section>
+  </div>
+  
+  <section aria-label="Контакты" role="contentinfo" class="team-section">
+    <div class="team-container">
+        <h1 id="contacts" tabindex="0">Контакты</h1>
+        <ul role="list" aria-label="Список контактов" class="team-list">
+            {% for contact in contacts %}
+            <li role="listitem" class="team-member">
+                <p lang="ru" dir="ltr">Имя: <strong itemprop="name">{{ contact.name }}</strong></p>
+                <figure role="figure" aria-label="Изображение работника">
+                    <img src="{{ contact.image.url }}" alt="Изображение работника" width="200" height="150" loading="lazy" decoding="async">
+                    <figcaption lang="ru" dir="ltr">Изображение работника</figcaption>
+                </figure>
+                <p lang="ru" dir="ltr">Email: <a href="mailto:{{ contact.email }}" aria-label="Отправить email">{{ contact.email }}</a></p>
+                <p lang="ru" dir="ltr">Телефон: <a href="tel:{{ contact.phone_number }}" aria-label="Позвонить">{{ contact.phone_number }}</a></p>
+                <p lang="ru" dir="ltr">Должность: <em itemprop="jobTitle">{{ contact.position }}</em></p>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+  </section>
+
+  
+  <div class="faq-section">
+    <section aria-label="Часто задаваемые вопросы" role="contentinfo">
+      <h1 id="faq" tabindex="0">Часто задаваемые вопросы</h1>
+      <ul role="list" aria-label="Список вопросов и ответов">
+        {% for faq in faqs %}
+          <li role="listitem">
+            <a href="{% url 'faq' faq.id %}" aria-label="Читать далее">
+              <button class="faq-question">
+                {{ faq.question }} <span class="faq-date">{{ faq.creation_time }}</span>
+              </button>
+            </a>
+            <div lang="ru" dir="ltr" class="faq-answer">
+              {{ faq.answer }}
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
+    </section>
+  </div>
+
+  <section aria-label="Случайный текст и картинка" role="contentinfo">
+    <h1 id="random-text-and-image" tabindex="0">Случайный текст и картинка</h1>
+    <p lang="ru" dir="ltr">{{ lorem_ipsum }}</p>
+    <img src="{{ unsplash_image }}" alt="Случайное изображение" loading="lazy" decoding="async">
+  </section>
+  
+  <section aria-label="Партнеры" role="contentinfo">
+    <h1 id="partners" tabindex="0">Партнеры</h1>
+    <div class="partners-list">
+      {% for partner in partners %}
+      <div class="partner-item">
+        <p class="partner-name" lang="ru" dir="ltr">{{ partner.name }}</p>
+        <a href="{{ partner.website }}" aria-label="Перейти на сайт">
+          <img src="{{ partner.logo.url }}" alt="Партнер" loading="lazy" decoding="async" height="100px" width="100px">
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+  
+  <p lang="ru" dir="ltr"><a href="{% url 'politics' %}" aria-label="Политика">Политика</a></p>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const locationInfo = document.getElementById('location-info');
+
+      if ("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+          const latitude = position.coords.latitude;
+          const longitude = position.coords.longitude;
+          locationInfo.textContent = `Ваше местоположение: Широта: ${latitude}, Долгота: ${longitude}`;
+        }, function(error) {
+          locationInfo.textContent = "Не удалось получить местоположение.";
+        });
+      } else {
+        locationInfo.textContent = "Геолокация не поддерживается вашим браузером.";
+      }
+    });
+
+  </script>
+{% endblock %}

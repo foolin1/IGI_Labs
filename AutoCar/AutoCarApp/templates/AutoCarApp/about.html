@@ -1,0 +1,43 @@
+{% extends 'AutoCarApp/base.html' %}
+{% load static %}
+{% block content %}
+<h1>О компании</h1>
+<h2>{{ about_company.title }}</h2>
+<p>{{ about_company.text }}</p>
+{% if about_company.video %}
+<div class="video-container">
+    <video width="640" height="480" controls>
+    <source src="{{ about_company.video.url }}" type="video/mp4">
+        Ваш браузер не поддерживает видео.
+    </video>
+</div>
+{% endif %}
+{% if about_company.logo %}
+<img src="{{ about_company.logo.url }}" alt="Логотип компании" width="200" height="200">
+{% endif %}
+<div class="year-history">
+<h1>История компании</h1>
+    <ul>
+        {% for history in history %}
+        <li>
+            <strong>Год:</strong> {{ history.year }}<br>
+            <strong>Текст:</strong> {{ history.text }}<br>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+<h1>Реквизиты</h1>
+<ul>
+{% for requisite in requisites %}
+<li>
+<strong>Название:</strong> {{ requisite.title }}<br>
+<strong>Текст:</strong> {{ requisite.text }}<br>
+</li>
+{% endfor %}
+</ul>
+<div class="certificate">
+    <h1>Сертификат</h1>
+    <p>{{ certificate.title }}</p>
+    <p class="details">{{ certificate.text }}</p>
+</div>
+{% endblock %}

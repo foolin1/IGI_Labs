@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exponential Function Graph</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.8.0/math.min.js"></script>
+  <style>
+    canvas {
+        display: block;
+        margin: 0 auto;
+        width: 1000px;
+        height: 600px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Графики функции \( e^x \) и разложения в ряд</h1>
+  <canvas id="expChart"></canvas>
+  <script src="{% static 'AutoCarApp/js/math.js' %}"></script>
+</body>
+</html>

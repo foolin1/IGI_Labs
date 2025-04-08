@@ -1,0 +1,26 @@
+{% extends 'AutoCarApp/base.html' %}
+
+{% block content %}
+<h1>Cars and Their Balances</h1>
+
+{% if cars_with_balance %}
+<div class="car-catalog">
+  {% for car in cars_with_balance %}
+  <div class="car-item">
+    <h2>{{ car.car.auto_model }}, {{ car.car.number }}</h2>
+    <p>Balance: {{ car.balance }}$</p>
+    {% if car.parking_spot %}
+      <p>Parking spot: {{ car.parking_spot.number }}, price: {{ car.parking_spot.price }}$ per month</p>
+    {% else %}
+      <p>No spot</p>
+    {% endif %}
+    <a href="{% url 'car' car.car.id %}" class="view-car-btn">View Car</a>
+  </div>
+  {% endfor %}
+</div>
+{% else %}
+<p>No cars available.</p>
+{% endif %}
+
+<a href="{% url 'add_car' %}" class="add-car-btn">Add a Car</a>
+{% endblock content %}

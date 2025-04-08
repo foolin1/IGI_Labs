@@ -1,0 +1,54 @@
+{% extends 'AutoCarApp/base.html' %}
+
+{% block content %}
+<h2>Register</h2>
+<form id="registration-form" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <label for="birthdate">Введите дату рождения:</label>
+    <input type="date" id="birthdate" name="birthdate" required>
+    <button type="submit" id="register-button">Register</button>
+</form>
+
+<p id="message"></p>
+
+<script>
+    document.getElementById("registration-form").addEventListener("submit", function (event) {
+        const birthdateInput = document.getElementById("birthdate").value;
+        const messageElement = document.getElementById("message");
+
+        if (!birthdateInput) {
+            alert("Пожалуйста, введите дату рождения.");
+            event.preventDefault();
+            return;
+        }
+
+        const birthdate = new Date(birthdateInput);
+        const today = new Date();
+
+        let age = today.getFullYear() - birthdate.getFullYear();
+        const monthDifference = today.getMonth() - birthdate.getMonth();
+        if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthdate.getDate())) {
+            age--;
+        }
+
+        const daysOfWeek = [
+            "Воскресенье",
+            "Понедельник",
+            "Вторник",
+            "Среда",
+            "Четверг",
+            "Пятница",
+            "Суббота",
+        ];
+        const dayOfWeek = daysOfWeek[birthdate.getDay()];
+
+        if (age < 18) {
+            alert("Вы несовершеннолетний. Пожалуйста, получите разрешение родителей для использования сайта.");
+            event.preventDefault();
+        } else {
+            alert(`Вы совершеннолетний. День недели вашей даты рождения: ${dayOfWeek}. Вам ${age} лет.`);
+        }
+    });
+</script>
+{% endblock %}

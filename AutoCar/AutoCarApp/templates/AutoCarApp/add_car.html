@@ -1,0 +1,10 @@
+{% extends 'AutoCarApp/base.html' %}
+
+{% block content %}
+<h1>Добавить новый автомобиль</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Добавить</button>
+</form>
+{% endblock content %}

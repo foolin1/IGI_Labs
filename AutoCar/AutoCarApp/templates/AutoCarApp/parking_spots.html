@@ -1,0 +1,96 @@
+{% extends 'AutoCarApp/base.html' %}
+
+{% block content %}
+<style>
+.cards-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    margin-top: 20px;
+}
+
+.card {
+    width: 300px;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    perspective: 1000px;
+    transform-style: preserve-3d;
+    transition: transform 0.5s, opacity 0.5s;
+    opacity: 0;
+    transform: translateY(50px) scale(0.95);
+}
+
+.card.animate {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+.card:hover {
+    transform: rotateY(10deg) rotateX(-5deg) scale(1.05);
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.3);
+}
+</style>
+
+<div class="cards-container">
+    {% for spot in spots %}
+    <div class="card">
+        <p>Spot Number: {{ spot.number }} - Price: ${{ spot.price }}</p>
+        {% if spot.is_available %}
+            {% if user.is_authenticated %}
+            <form action="{% url 'park_auto' spot.number %}" method="post">
+                {% csrf_token %}
+                <select name="auto_number">
+                    {% for auto in available_autos %}
+                        <option value="{{ auto.number }}">{{ auto.number }}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit">Park Auto</button>
+            </form>
+            {% endif %}
+        {% else %}
+        <p>No available spots</p>
+        {% endif %}
+    </div>
+    {% endfor %}
+</div>
+
+<!-- Элементы навигации -->
+<div class="pagination">
+    {% if spots.has_previous %}
+        <a href="?page=1{% if request.GET.sort_by %}&sort_by={{ request.GET.sort_by }}{% endif %}">« Первая</a>
+        <a href="?page={{ spots.previous_page_number }}{% if request.GET.sort_by %}&sort_by={{ request.GET.sort_by }}{% endif %}">‹ Предыдущая</a>
+    {% endif %}
+
+    <span>Страница {{ spots.number }} из {{ spots.paginator.num_pages }}</span>
+
+    {% if spots.has_next %}
+        <a href="?page={{ spots.next_page_number }}{% if request.GET.sort_by %}&sort_by={{ request.GET.sort_by }}{% endif %}">Следующая ›</a>
+        <a href="?page={{ spots.paginator.num_pages }}{% if request.GET.sort_by %}&sort_by={{ request.GET.sort_by }}{% endif %}">Последняя »</a>
+    {% endif %}
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+      const cards = document.querySelectorAll(".card");
+
+      const observer = new IntersectionObserver(
+          (entries) => {
+              entries.forEach((entry) => {
+                  if (entry.isIntersecting) {
+                      entry.target.classList.add("animate");
+                  } else {
+                      entry.target.classList.remove("animate");
+                  }
+              });
+          },
+          { threshold: 0.1 }
+      );
+
+      cards.forEach((card) => observer.observe(card));
+  });
+</script>
+
+{% endblock content %}

@@ -1,0 +1,17 @@
+{% extends 'AutoCarApp/base.html' %}
+{% load static %}
+{% block content %}
+<h1>Новости</h1>
+<ul>
+{% for news_article in news_articles %}
+<div class="article-preview">
+    <li>
+        <h2>{{ news_article.name }}</h2>
+        <img src="{{ news_article.image.url }}" alt="Изображение новости" width="200" height="150">
+        <p class="short-description">{{ news_article.description }}</p>
+        <a href="{% url 'news_article' news_article.id %}">Читать далее</a>
+    </li>
+</div>
+{% endfor %}
+</ul>
+{% endblock %}

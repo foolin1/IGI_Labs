@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ru">
+  {% load static %}
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Подключение файла стилей -->
+  <link rel="stylesheet" href="{% static 'AutoCarApp/css/styles_for_js.css' %}">
+  <script src="{% static 'AutoCarApp/js/slider.js' %}"></script>
+  <script src="{% static 'AutoCarApp/js/timer.js' %}"></script>
+  <title>Пример страницы</title>
+</head>
+<body>
+
+    <div id="slider" class="slider" data-loop="true" data-auto="true" data-delay="5" data-navs="true" data-pags="true" data-stopmousehover="true">
+        <div class="slides">
+            {% for slide in slides %}
+            <div class="slide" data-link="{{ slide.url }}">
+                <img src="{% static slide.image_url %}" alt="{{ slide.title }}" loading="lazy" decoding="async">
+                <div class="caption">
+                    <p>{{ slide.title }}</p>
+                    <span class="slide-count">{{ forloop.counter }}/{{ slides|length }}</span>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% if slider_settings.navs %}
+            <button style="position: absolute; top: 50%; left: 5%;" class="prev" aria-label="Предыдущий слайд">&lt;</button>
+            <button style="position: absolute; top: 50%; right: 5%;" class="next" aria-label="Следующий слайд">&gt;</button>
+        {% endif %}
+        {% if slider_settings.pags %}
+        <div class="pagination">
+            {% for slide in slides %}
+            <button class="pag" data-index="{{ forloop.counter0 }}" aria-label="Слайд {{ forloop.counter }}"></button>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+
+    <div id="countdown">
+        Осталось: <span id="time-remaining"></span>
+    </div>    
+
+</body>
+</html>
